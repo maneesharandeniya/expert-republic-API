@@ -16,11 +16,11 @@ public class Booking {
 
     @Id
     @Column(name="userId")
-    private int userId;
+    private Long userId;
 
     @Id
     @Column(name="serviceId")
-    private int serviceId;
+    private Long serviceId;
 
     @Column(name="date")
     private LocalDate date;

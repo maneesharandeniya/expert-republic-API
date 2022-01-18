@@ -4,13 +4,8 @@ import java.io.Serializable;
 
 public class BookingIDs implements Serializable {
 
-    private int userId;
-    private int serviceId;
-
-    public BookingIDs(int userId, int serviceId) {
-        this.userId = userId;
-        this.serviceId = serviceId;
-    }
+    private Long userId;
+    private Long serviceId;
 
     public BookingIDs() {
     }

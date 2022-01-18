@@ -9,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="expert")
+@Table(name="user")
 @Getter
 @Setter
-public class Experts {
+public class User {
 
     @Id
     @Column(name="id")
@@ -21,13 +21,6 @@ public class Experts {
     @Column(name="name")
     private String name;
 
-    @Column(name="description")
-    private String description;
-
     @Column(name="country")
     private String country;
-
-    @Column(name="languages")
-    private String languages;
-
 }

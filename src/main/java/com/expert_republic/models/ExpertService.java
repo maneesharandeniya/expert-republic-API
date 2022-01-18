@@ -9,25 +9,25 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="expert")
+@Table(name="service")
 @Getter
 @Setter
-public class Experts {
+public class ExpertService {
 
     @Id
     @Column(name="id")
     private int id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="title")
+    private String title;
 
     @Column(name="description")
     private String description;
 
-    @Column(name="country")
-    private String country;
+    @Column(name="cost")
+    private float cost;
 
-    @Column(name="languages")
-    private String languages;
+    @Column(name="expertId")
+    private int expertId;
 
 }

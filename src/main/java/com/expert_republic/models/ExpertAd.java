@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name="service")
 @Getter
 @Setter
-public class ExpertService {
+public class ExpertAd {
 
     @Id
     @Column(name="id")

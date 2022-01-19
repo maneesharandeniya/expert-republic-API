@@ -12,9 +12,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ExpertDetailsPrincipal implements UserDetails {
 
-    private Optional<Expert> expert;
+    private Expert expert;
 
-    public ExpertDetailsPrincipal(Optional<Expert> expert){
+    public ExpertDetailsPrincipal(Expert expert){
         this.expert = expert;
     }
 
@@ -27,21 +27,12 @@ public class ExpertDetailsPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        AtomicReference<String> password = null;
-        expert.ifPresent(e ->{
-             password.set(e.getPassword());
-        });
-        return password.get();
+        return expert.getPassword();
     }
 
     @Override
     public String getUsername() {
-        //return Long.toString(expert.getId());
-        AtomicReference<String> id = null;
-        expert.ifPresent(e ->{
-            id.set(Long.toString(e.getId()));
-        });
-        return id.get();
+        return expert.getEmail();
     }
 
     @Override

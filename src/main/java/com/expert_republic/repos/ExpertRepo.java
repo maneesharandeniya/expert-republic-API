@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ExpertRepo extends JpaRepository<Expert, Long> {
 
     public Optional<Expert> findById(Long id);
+    public Expert findByEmail(String email);
 }

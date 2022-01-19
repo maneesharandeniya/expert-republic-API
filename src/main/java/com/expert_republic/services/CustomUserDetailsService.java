@@ -24,16 +24,19 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepo userRepo;
 
     @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Optional<Expert> expert = expertRepo.findById(Long.parseLong(id));
-        Optional<User> user = userRepo.findById(Long.parseLong(id));
+        Expert expert = expertRepo.findByEmail(email);
+        User user = userRepo.findByEmail(email);
 
-        if(!expert.isPresent()) {
+      //  System.out.println(expert.isPresent());
+      //  System.out.println(user.isPresent());
+
+        if(expert != null) {
             return new ExpertDetailsPrincipal(expert);
-        }else if(!user.isPresent()) {
+        }else if(user != null) {
             return new UserDetailsPrincipal(user);
         }
-        throw new UsernameNotFoundException("User not found with id: " + id);
+        throw new UsernameNotFoundException("User not found with id: " + email);
     }
 }

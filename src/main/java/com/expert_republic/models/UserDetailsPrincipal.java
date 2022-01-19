@@ -11,36 +11,27 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UserDetailsPrincipal implements UserDetails {
-    private Optional<User> user;
+    private User user;
 
-    public UserDetailsPrincipal(Optional<User> user){
+    public UserDetailsPrincipal(User user){
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> auth = new ArrayList<>();
-        auth.add(new SimpleGrantedAuthority("ROLE_EXPERT"));
+        auth.add(new SimpleGrantedAuthority("ROLE_USER"));
         return auth;
     }
 
     @Override
     public String getPassword() {
-        AtomicReference<String> password = null;
-        user.ifPresent(e ->{
-            password.set(e.getPassword());
-        });
-        return password.get();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        //return Long.toString(expert.getId());
-        AtomicReference<String> id = null;
-        user.ifPresent(e ->{
-            id.set(Long.toString(e.getId()));
-        });
-        return id.get();
+        return user.getEmail();
     }
 
     @Override

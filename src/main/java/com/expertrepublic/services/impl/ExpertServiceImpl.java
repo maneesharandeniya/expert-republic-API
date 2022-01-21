@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Component
@@ -29,7 +31,7 @@ public class ExpertServiceImpl implements ExpertService {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-
+    @Override
     public ResponseEntity<?> registerNewExpert(Expert expert) {
         try {
             final UserDetails userDetails = customUserDetailsService.loadUserByUsername(expert.getEmail());
@@ -44,10 +46,13 @@ public class ExpertServiceImpl implements ExpertService {
         }
     }
 
-    public ResponseEntity<?> addNewService(ExpertAd service) {
-
+    @Override
+    public ResponseEntity<?> addNewExpertAd(ExpertAd service) {
         try {
             String userEmail = LoginController.getUserFromSession();
+            if(userEmail == null){
+                return new ResponseEntity<>("Email address not found.", HttpStatus.BAD_REQUEST);
+            }
             Expert expert = expertRepo.findByEmail(userEmail);
             expert.getServicesAd().add(service);
             expertRepo.save(expert);
@@ -56,5 +61,18 @@ public class ExpertServiceImpl implements ExpertService {
             System.out.println(e);
         }
         return null;
+    }
+
+    @Override
+    public ResponseEntity<?> getExpertsAds() {
+
+        String userEmail = LoginController.getUserFromSession();
+        if(userEmail == null){
+            return new ResponseEntity<>("Email address not found.", HttpStatus.BAD_REQUEST);
+        }
+        Expert expert = expertRepo.findByEmail(userEmail);
+
+        return new ResponseEntity<>(expert.getServicesAd(), HttpStatus.OK);
+
     }
 }

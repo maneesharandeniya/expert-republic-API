@@ -5,10 +5,9 @@ import com.expertrepublic.domain.ExpertAd;
 import com.expertrepublic.services.ExpertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -19,16 +18,21 @@ public class ExpertController {
     private final ExpertService expertService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> expertRegistration(@RequestBody Expert expert) {
+    public ResponseEntity<?> expertRegistration(@Valid @RequestBody Expert expert) {
         ResponseEntity<?> response = expertService.registerNewExpert(expert);
         return response;
     }
 
 
-    @PostMapping("/add/service")
-    public ResponseEntity<?> addNewService(@RequestBody ExpertAd service) {
-        ResponseEntity<?> response = expertService.addNewService(service);
+    @PostMapping("{expertId}/new-service")
+    public ResponseEntity<?> addExpertAd(@Valid @RequestBody ExpertAd service) {
+        ResponseEntity<?> response = expertService.addNewExpertAd(service);
         return response;
     }
 
+    @GetMapping("{expertId}/all-services")
+    public ResponseEntity<?> getExpertsAds() {
+        ResponseEntity<?> response = expertService.getExpertsAds();
+        return response;
+    }
 }

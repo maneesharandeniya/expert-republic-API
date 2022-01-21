@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,21 +22,25 @@ public class User {
     private Long id;
 
     @Column(name="name")
+    @NotNull(message = "Name cannot be null")
+    @NotBlank(message = "Name may not be blank")
     private String name;
 
     @Column(name="email")
+    @NotNull(message="email cannot be null")
+    @NotBlank(message = "email may not be blank")
+    @Email(message = "Not a valid email address")
     private String email;
 
     @Column(name="password")
+    @NotNull(message = "password cannot be null")
+    @NotBlank(message = "Password must not be blank")
     private String password;
 
     @Column(name="country")
     private String country;
 
-    @ManyToMany
-    @JoinTable(name = "booking",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "service_id") })
-    private Set<ExpertAd> expertAds = new HashSet<ExpertAd>();
+    @OneToMany(mappedBy = "user")
+    private Set<@Valid Booking> bookings = new HashSet<Booking>();;
 
 }

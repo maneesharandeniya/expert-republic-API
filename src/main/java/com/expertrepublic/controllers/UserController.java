@@ -1,6 +1,7 @@
 package com.expertrepublic.controllers;
 
 import com.expertrepublic.domain.User;
+import com.expertrepublic.dto.BookingDto;
 import com.expertrepublic.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,4 +24,11 @@ public class UserController {
         ResponseEntity<?> response = userService.registerNewUser(user);
         return response;
     }
+
+    @PostMapping("/service/booking")
+    public ResponseEntity<?> bookService(@RequestBody BookingDto bookingDto) {
+        ResponseEntity<?> response = userService.bookService(bookingDto);
+        return response;
+    }
+
 }

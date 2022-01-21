@@ -43,14 +43,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .antMatchers("/app/login","/user/signup","/expert/signup").permitAll()
-                .antMatchers("/expert/**").hasRole("EXPERT")
-                .antMatchers("/user/**").hasRole("USER")
-                .anyRequest().authenticated();
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            .authorizeRequests()
+            .antMatchers("/auth/login","/user/signup","/expert/signup","/service-ad").permitAll()
+            .antMatchers("/expert/**").hasRole("EXPERT")
+            .antMatchers("/user/**").hasRole("USER")
+            .anyRequest().authenticated();
     }
 
 }

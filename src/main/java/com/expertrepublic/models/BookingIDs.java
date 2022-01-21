@@ -1,16 +1,22 @@
 package com.expertrepublic.models;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import java.io.Serializable;
 
 @Embeddable
 public class BookingIDs implements Serializable {
-
+    // @Column(name="user_id")
     private Long userId;
+    // @Column(name="service_id")
     private Long serviceId;
 
     public BookingIDs() {
+    }
+
+    public BookingIDs(Long userId, Long serviceId) {
+        this.userId = userId;
+        this.serviceId = serviceId;
     }
 
     @Override

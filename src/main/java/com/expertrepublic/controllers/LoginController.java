@@ -25,7 +25,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class LoginController {
 

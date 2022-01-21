@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +22,19 @@ public class Expert {
     private Long id;
 
     @Column(name="name")
+    @NotNull(message = "Name cannot be null")
+    @NotBlank(message = "Name may not be blank")
     private String name;
 
     @Column(name="email")
+    @NotNull(message="email cannot be null")
+    @NotBlank(message = "email may not be blank")
+    @Email(message = "Not a valid email address")
     private String email;
 
     @Column(name="password")
+    @NotNull(message = "password cannot be null")
+    @NotBlank(message = "Password must not be blank")
     private String password;
 
     @Column(name="description")
@@ -38,6 +49,6 @@ public class Expert {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "expert_id", referencedColumnName = "id")
-    List<ExpertAd> servicesAd = new ArrayList<ExpertAd>();
+    List<@Valid ExpertAd> servicesAd = new ArrayList<ExpertAd>();
 
 }

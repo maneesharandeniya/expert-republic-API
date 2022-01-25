@@ -2,8 +2,10 @@ package com.expertrepublic.controllers;
 
 import com.expertrepublic.domain.Expert;
 import com.expertrepublic.domain.ExpertAd;
+import com.expertrepublic.services.ExpertAdService;
 import com.expertrepublic.services.ExpertService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import javax.validation.Valid;
 @RequestMapping("/expert")
 @RequiredArgsConstructor
 public class ExpertController {
+
 
     private final ExpertService expertService;
 
@@ -35,4 +38,6 @@ public class ExpertController {
         ResponseEntity<?> response = expertService.getExpertsAds();
         return response;
     }
+
+
 }

@@ -5,11 +5,7 @@ import com.expertrepublic.dto.BookingDto;
 import com.expertrepublic.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -25,10 +21,17 @@ public class UserController {
         return response;
     }
 
-    @PostMapping("/service/booking")
+    @PostMapping("/service/{serviceId}/booking")
     public ResponseEntity<?> bookService(@RequestBody BookingDto bookingDto) {
         ResponseEntity<?> response = userService.bookService(bookingDto);
         return response;
     }
+
+    @GetMapping("/all-booking")
+    public ResponseEntity<?> getAllBookings() {
+        ResponseEntity<?> response = userService.getAllBookings();
+        return response;
+    }
+
 
 }

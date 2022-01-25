@@ -1,6 +1,10 @@
 package com.expertrepublic.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,14 +12,17 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name="service")
-@Getter
-@Setter
-public class ExpertAd {
+@Data
+@NoArgsConstructor
+public class ExpertAd implements Serializable {
 
     @Id
     @Column(name="id")
@@ -37,13 +44,11 @@ public class ExpertAd {
     @Min(value = 1,message = "Minimum value of cost should be 1$")
     private float cost;
 
-    /*@ManyToOne
-    @JoinColumn(name="id")
-    private Expert expert;*/
-    /*@OneToMany(mappedBy = "expert_ad")
-    private Set<ExpertAd> publishers = new HashSet<ExpertAd>();*/
+    @OneToMany(mappedBy = "expertAd")
+    private List<@Valid Booking> bookings = new ArrayList<Booking>();
 
-    @OneToMany(mappedBy = "service")
-    private Set<@Valid Booking> bookings = new HashSet<Booking>();
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "expert_id", referencedColumnName = "id")
+    private Expert expert;
 
 }

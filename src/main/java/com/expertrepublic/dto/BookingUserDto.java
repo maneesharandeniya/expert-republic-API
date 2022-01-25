@@ -1,15 +1,15 @@
 package com.expertrepublic.dto;
 
-
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
-public class BookingDto {
+public class BookingUserDto {
+    private Long bookingId;
 
-    private Long serviceId;
+    private ExpertAdCommonDto expertAd;
 
     private LocalDate date;
 

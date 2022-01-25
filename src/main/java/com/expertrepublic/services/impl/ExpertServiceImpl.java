@@ -3,24 +3,27 @@ package com.expertrepublic.services.impl;
 import com.expertrepublic.controllers.LoginController;
 import com.expertrepublic.domain.Expert;
 import com.expertrepublic.domain.ExpertAd;
+import com.expertrepublic.dto.ExpertAdExpertDto;
+import com.expertrepublic.dto.ExpertDto;
+import com.expertrepublic.mapstruct.MapStructMapper;
 import com.expertrepublic.repos.ExpertAdRepo;
 import com.expertrepublic.repos.ExpertRepo;
 import com.expertrepublic.services.CustomUserDetailsService;
 import com.expertrepublic.services.ExpertService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @RequiredArgsConstructor
-@Component
+@Service
 public class ExpertServiceImpl implements ExpertService {
 
     private final ExpertRepo expertRepo;
@@ -30,6 +33,9 @@ public class ExpertServiceImpl implements ExpertService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    MapStructMapper mapStructMapper;
 
     @Override
     public ResponseEntity<?> registerNewExpert(Expert expert) {
@@ -71,8 +77,8 @@ public class ExpertServiceImpl implements ExpertService {
             return new ResponseEntity<>("Email address not found.", HttpStatus.BAD_REQUEST);
         }
         Expert expert = expertRepo.findByEmail(userEmail);
+        List<ExpertAdExpertDto> expertAdExpertDtoList = mapStructMapper.expertAdToExpertAdExpertDto(expert.getServicesAd());
 
-        return new ResponseEntity<>(expert.getServicesAd(), HttpStatus.OK);
-
+        return new ResponseEntity<>(expertAdExpertDtoList, HttpStatus.OK);
     }
 }

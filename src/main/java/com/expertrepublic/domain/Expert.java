@@ -46,9 +46,7 @@ public class Expert {
     @Column(name="languages")
     private String languages;
 
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "expert_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "expert")
     List<@Valid ExpertAd> servicesAd = new ArrayList<ExpertAd>();
 
 }

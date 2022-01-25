@@ -1,6 +1,9 @@
 package com.expertrepublic.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,14 +11,17 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name="user")
-@Getter
-@Setter
-public class User {
+@Data
+@NoArgsConstructor
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +47,6 @@ public class User {
     private String country;
 
     @OneToMany(mappedBy = "user")
-    private Set<@Valid Booking> bookings = new HashSet<Booking>();;
+    private List<@Valid Booking> bookings = new ArrayList<Booking>();
 
 }

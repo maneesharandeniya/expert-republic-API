@@ -4,7 +4,8 @@ import com.expertrepublic.controllers.LoginController;
 import com.expertrepublic.domain.Expert;
 import com.expertrepublic.domain.ExpertAd;
 import com.expertrepublic.dto.ExpertAdExpertDto;
-import com.expertrepublic.dto.ExpertDto;
+import com.expertrepublic.dto.ExpertAdPostDto;
+import com.expertrepublic.dto.ExpertRegisterDto;
 import com.expertrepublic.mapstruct.MapStructMapper;
 import com.expertrepublic.repos.ExpertAdRepo;
 import com.expertrepublic.repos.ExpertRepo;
@@ -38,11 +39,12 @@ public class ExpertServiceImpl implements ExpertService {
     MapStructMapper mapStructMapper;
 
     @Override
-    public ResponseEntity<?> registerNewExpert(Expert expert) {
+    public ResponseEntity<?> registerNewExpert(ExpertRegisterDto regExpert) {
         try {
-            final UserDetails userDetails = customUserDetailsService.loadUserByUsername(expert.getEmail());
+            final UserDetails userDetails = customUserDetailsService.loadUserByUsername(regExpert.getEmail());
             return new ResponseEntity<>("Email already in use.Try with a new one.", HttpStatus.BAD_REQUEST);
         }catch (UsernameNotFoundException e){
+            Expert expert = mapStructMapper.expertRegisterDtoToExpert(regExpert);
             expert.setPassword(passwordEncoder.encode(expert.getPassword()));
             expertRepo.save(expert);
             return new ResponseEntity<>("Expert added successfully.", HttpStatus.OK);
@@ -52,16 +54,18 @@ public class ExpertServiceImpl implements ExpertService {
         }
     }
 
+
     @Override
-    public ResponseEntity<?> addNewExpertAd(ExpertAd service) {
+    public ResponseEntity<?> addNewExpertAd(ExpertAdPostDto servicePost) {
         try {
             String userEmail = LoginController.getUserFromSession();
             if(userEmail == null){
                 return new ResponseEntity<>("Email address not found.", HttpStatus.BAD_REQUEST);
             }
             Expert expert = expertRepo.findByEmail(userEmail);
-            expert.getServicesAd().add(service);
-            expertRepo.save(expert);
+            ExpertAd service = mapStructMapper.expertAdPostDtoToExpertAd(servicePost);
+            service.setExpert(expert);
+            expertAdRepo.save(service);
             return new ResponseEntity<>("Service added successfully", HttpStatus.CREATED);
         }catch (Exception e){
             System.out.println(e);

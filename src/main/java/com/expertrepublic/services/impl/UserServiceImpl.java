@@ -2,15 +2,10 @@ package com.expertrepublic.services.impl;
 
 import com.expertrepublic.controllers.LoginController;
 import com.expertrepublic.domain.Booking;
-import com.expertrepublic.domain.Expert;
 import com.expertrepublic.domain.ExpertAd;
 import com.expertrepublic.domain.User;
-import com.expertrepublic.dto.BookingDto;
-import com.expertrepublic.dto.BookingUserDto;
-import com.expertrepublic.dto.ExpertDto;
-import com.expertrepublic.dto.UserDto;
+import com.expertrepublic.dto.*;
 import com.expertrepublic.mapstruct.MapStructMapper;
-import com.expertrepublic.models.BookingIDs;
 import com.expertrepublic.repos.BookingRepo;
 import com.expertrepublic.repos.ExpertAdRepo;
 import com.expertrepublic.repos.UserRepo;
@@ -23,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,11 +40,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     MapStructMapper mapStructMapper;
 
-    public ResponseEntity<?> registerNewUser(User user) {
+    public ResponseEntity<?> registerNewUser(UserRegisterDto userRegister) {
         try {
-            final UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getEmail());
+            final UserDetails userDetails = customUserDetailsService.loadUserByUsername(userRegister.getEmail());
             return new ResponseEntity<>("Email already in use. Try with a new one.", HttpStatus.BAD_REQUEST);
         }catch (UsernameNotFoundException e){
+            User user = mapStructMapper.userRegisterDtoToUser(userRegister);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepo.save(user);
             return new ResponseEntity<>("User added successfully.", HttpStatus.CREATED);
@@ -60,30 +55,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<?> bookService(BookingDto bookingDto){
+    public ResponseEntity<?> bookService(BookingPostDto bookingDto){
 
         String userEmail = LoginController.getUserFromSession();
 
         User user = userRepo.findByEmail(userEmail);
         Optional<ExpertAd> expertAd = expertAdRepo.findById(bookingDto.getServiceId());
 
-        Booking booking = new Booking();
-      //  booking.setUserId(user.getId());
-       // booking.setServiceId(bookingDto.getServiceId());
-       // booking.setDate(bookingDto.getDate());
-       // booking.setStartTime(bookingDto.getStartTime());
-       // booking.setStartTime(bookingDto.getEndTime());
-
+        Booking booking = mapStructMapper.bookingPostDtoToBooking(bookingDto);
         booking.setExpertAd(expertAd.get());
         booking.setUser(user);
-       // booking.setService(expertAd.get());
-      //  user.getBookings().add(booking);
-
-       // expertAd.get().getBookings().add(booking);
-
-      // userRepo.save(user);
-      //  expertAdRepo.save(expertAd.get());
-       bookingRepo.save(booking);
+        bookingRepo.save(booking);
 
         return new ResponseEntity<>("Booking added successfully.", HttpStatus.OK);
     }

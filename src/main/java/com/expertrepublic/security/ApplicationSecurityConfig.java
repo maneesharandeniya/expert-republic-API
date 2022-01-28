@@ -29,6 +29,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    private static final String[] AUTH_WHITELIST = {
+            "/authenticate",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/webjars/**"
+    };
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -47,10 +55,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
-            .antMatchers("/auth/login","/user/signup","/expert/signup","/service-ad/**").permitAll()
+            .antMatchers(
+                "/auth/login",
+                "/user/signup",
+                "/expert/signup",
+                "/service-ad/**").permitAll()
+            .antMatchers(AUTH_WHITELIST).permitAll()
             .antMatchers("/expert/**").hasRole("EXPERT")
             .antMatchers("/user/**").hasRole("USER")
             .anyRequest().authenticated();
     }
-
+    //springdoc.api-docs.path=/api-docs
 }

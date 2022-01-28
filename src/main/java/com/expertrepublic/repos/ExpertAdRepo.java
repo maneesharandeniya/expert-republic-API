@@ -10,12 +10,10 @@ import java.util.List;
 
 public interface ExpertAdRepo extends JpaRepository<ExpertAd, Long> {
 
-    @Query(value = "SELECT s.id, s.title, s.cost, s.description FROM service s",
+   /* @Query(value = "SELECT s.id, s.title, s.cost, s.description FROM service s",
             nativeQuery = true)
-    List<ExpertAdCommonDto> findPostExpertAdAll();
+    List<ExpertAdCommonDto> findPostExpertAdAll();*/
 
    // List<ExpertAd> findByUserEmail(String email);
-
-
 
 }

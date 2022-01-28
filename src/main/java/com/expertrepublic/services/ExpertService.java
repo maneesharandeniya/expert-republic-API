@@ -1,15 +1,16 @@
 package com.expertrepublic.services;
 
-import com.expertrepublic.domain.Expert;
 import com.expertrepublic.domain.ExpertAd;
+import com.expertrepublic.dto.ExpertAdPostDto;
+import com.expertrepublic.dto.ExpertRegisterDto;
 import org.springframework.http.ResponseEntity;
 
 
 public interface ExpertService {
 
-    public ResponseEntity<?> registerNewExpert(Expert expert);
+    public ResponseEntity<?> registerNewExpert(ExpertRegisterDto expert);
 
-    public ResponseEntity<?> addNewExpertAd(ExpertAd service);
+    public ResponseEntity<?> addNewExpertAd(ExpertAdPostDto service);
 
     public ResponseEntity<?> getExpertsAds();
 }

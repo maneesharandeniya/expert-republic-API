@@ -1,15 +1,10 @@
 package com.expertrepublic.domain;
 
-import com.expertrepublic.models.BookingIDs;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -54,17 +49,11 @@ public class Booking implements Serializable{
     private User user;
 
     @Column(name="date")
-    /*@NotNull(message = "Date cannot be null")
-    @NotBlank(message = "Date must not be blank")*/
     private LocalDate date;
 
     @Column(name="startTime")
-   /* @NotNull(message = "Start time cannot be null")
-    @NotBlank(message = "Start time must not be blank")*/
     private LocalTime startTime;
 
     @Column(name="endTime")
-    /*@NotNull(message = "End time cannot be null")
-    @NotBlank(message = "End time must not be blank")*/
     private LocalTime endTime;
 }

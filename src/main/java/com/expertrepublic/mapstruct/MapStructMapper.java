@@ -7,6 +7,7 @@ import com.expertrepublic.domain.ExpertAd;
 import com.expertrepublic.domain.User;
 import com.expertrepublic.dto.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -28,4 +29,12 @@ public interface MapStructMapper {
     List<BookingUserDto> bookingToBookingUser(List<Booking> booking);
 
     UserDto userToUserDto(User user);
+
+    Expert expertRegisterDtoToExpert(ExpertRegisterDto expert);
+
+    User userRegisterDtoToUser(UserRegisterDto userRegister);
+
+    ExpertAd expertAdPostDtoToExpertAd(ExpertAdPostDto expertAdPostDto);
+
+    Booking bookingPostDtoToBooking(BookingPostDto bookingPostDto);
 }
